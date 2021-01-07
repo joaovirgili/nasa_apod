@@ -1,8 +1,8 @@
 import 'app_controller.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter/material.dart';
-import 'package:cloudwalk_nasa/app/app_widget.dart';
-import 'package:cloudwalk_nasa/app/modules/home/home_module.dart';
+import 'app_widget.dart';
+import 'modules/home/home_module.dart';
 
 class AppModule extends MainModule {
   @override
