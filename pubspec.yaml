@@ -91,3 +91,4 @@ scripts:
     mobx_build: $runner build
     mobx_watch: $clean & $get & $runner watch
     mobx_build_clean: $clean & $get & $runner build --delete-conflicting-outputs
+    mobx_watch_clean: $clean & $get & $runner watch --delete-conflicting-outputs
