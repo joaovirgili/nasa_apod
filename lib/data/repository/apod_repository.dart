@@ -9,9 +9,11 @@ class ApodRepository implements IApodRepository {
   final IHttpClient httpClient;
 
   ApodRepository(this.httpClient);
+
+  final url = "https://api.nasa.gov/planetary/apod";
+
   @override
   Future<ApodEntity> fetchApod() async {
-    final url = "https://api.nasa.gov/planetary/apod";
     try {
       final res = await httpClient.get(
         url: url,
@@ -25,5 +27,18 @@ class ApodRepository implements IApodRepository {
     } catch (e) {
       throw DomainError.unexpected;
     }
+  }
+
+  @override
+  Future<List<ApodEntity>> fetchApodList(int count) {
+    httpClient.get(
+      url: url,
+      queryParameters: {
+        "thumbs": true,
+        "api_key": nasaApiKey,
+        "count": count,
+      },
+    );
+    return null;
   }
 }
