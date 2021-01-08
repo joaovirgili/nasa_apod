@@ -31,14 +31,20 @@ class ApodRepository implements IApodRepository {
 
   @override
   Future<List<ApodEntity>> fetchApodList(int count) async {
-    final res = await httpClient.get(
-      url: url,
-      queryParameters: {
-        "thumbs": true,
-        "api_key": nasaApiKey,
-        "count": count,
-      },
-    );
-    return (res as List).map((e) => ApodModel.fromJson(e).toEntity()).toList();
+    try {
+      final res = await httpClient.get(
+        url: url,
+        queryParameters: {
+          "thumbs": true,
+          "api_key": nasaApiKey,
+          "count": count,
+        },
+      );
+      return (res as List)
+          .map((e) => ApodModel.fromJson(e).toEntity())
+          .toList();
+    } catch (e) {
+      throw DomainError.unexpected;
+    }
   }
 }

@@ -66,6 +66,17 @@ void main() {
       expect(res, isNotNull);
       expect(res, isNotEmpty);
     });
+
+    test('Should throw Unexpected if HttpClient throws', () async {
+      when(httpClient.get(
+        url: anyNamed("url"),
+        queryParameters: anyNamed("queryParameters"),
+      )).thenThrow(Exception());
+
+      final future = sut.fetchApodList(count);
+
+      expect(future, throwsA(DomainError.unexpected));
+    });
   });
 
   group('Fetch a single APOD', () {
