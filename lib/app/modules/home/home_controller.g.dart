@@ -34,10 +34,40 @@ mixin _$HomeController on _HomeControllerBase, Store {
     });
   }
 
+  final _$apodListAtom = Atom(name: '_HomeControllerBase.apodList');
+
+  @override
+  ObservableList<ApodEntity> get apodList {
+    _$apodListAtom.reportRead();
+    return super.apodList;
+  }
+
+  @override
+  set apodList(ObservableList<ApodEntity> value) {
+    _$apodListAtom.reportWrite(value, super.apodList, () {
+      super.apodList = value;
+    });
+  }
+
+  final _$_HomeControllerBaseActionController =
+      ActionController(name: '_HomeControllerBase');
+
+  @override
+  void setIsLoading(bool v) {
+    final _$actionInfo = _$_HomeControllerBaseActionController.startAction(
+        name: '_HomeControllerBase.setIsLoading');
+    try {
+      return super.setIsLoading(v);
+    } finally {
+      _$_HomeControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
   @override
   String toString() {
     return '''
-isLoading: ${isLoading}
+isLoading: ${isLoading},
+apodList: ${apodList}
     ''';
   }
 }

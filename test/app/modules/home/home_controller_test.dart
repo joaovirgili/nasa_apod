@@ -11,7 +11,6 @@ class FetchApodListUsecaseMock extends Mock implements IFetchApodListUsecase {}
 
 void main() {
   final fetchApodListUsecaseMock = FetchApodListUsecaseMock();
-  final count = 10;
 
   initModule(
     HomeModule(),
@@ -36,8 +35,9 @@ void main() {
 
     test('fetchApodList should call fetchApodListUsecase', () async {
       await sut.fetchApodList();
+      expect(sut.isLoading, isFalse);
 
-      verify(fetchApodListUsecaseMock(count)).called(1);
+      verify(fetchApodListUsecaseMock(sut.count)).called(1);
     });
   });
 }
