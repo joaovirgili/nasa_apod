@@ -64,6 +64,17 @@ mixin _$HomeController on _HomeControllerBase, Store {
   }
 
   @override
+  void setApodList(List<ApodEntity> v) {
+    final _$actionInfo = _$_HomeControllerBaseActionController.startAction(
+        name: '_HomeControllerBase.setApodList');
+    try {
+      return super.setApodList(v);
+    } finally {
+      _$_HomeControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 isLoading: ${isLoading},

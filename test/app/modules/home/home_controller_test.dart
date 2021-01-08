@@ -6,6 +6,7 @@ import 'package:mockito/mockito.dart';
 import 'package:cloudwalk_nasa/app/modules/home/home_controller.dart';
 import 'package:cloudwalk_nasa/app/modules/home/home_module.dart';
 import 'package:cloudwalk_nasa/domain/usecases/fetch_apod_list_usecase.dart';
+import 'package:cloudwalk_nasa/domain/entities/apod_entity.dart';
 
 class FetchApodListUsecaseMock extends Mock implements IFetchApodListUsecase {}
 
@@ -34,9 +35,14 @@ void main() {
     });
 
     test('fetchApodList should call fetchApodListUsecase', () async {
-      await sut.fetchApodList();
-      expect(sut.isLoading, isFalse);
+      when(fetchApodListUsecaseMock(any)).thenAnswer(
+        (realInvocation) async => [ApodEntity()],
+      );
 
+      await sut.fetchApodList();
+
+      expect(sut.isLoading, isFalse);
+      expect(sut.apodList, isNotEmpty);
       verify(fetchApodListUsecaseMock(sut.count)).called(1);
     });
   });

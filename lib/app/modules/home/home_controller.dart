@@ -24,8 +24,11 @@ abstract class _HomeControllerBase with Store {
   @action
   void setIsLoading(bool v) => isLoading = v;
 
+  @action
+  void setApodList(List<ApodEntity> v) => apodList = v.asObservable();
+
   Future<void> fetchApodList() async {
-    await _fetchApodListUsecase.call(count);
+    setApodList(await _fetchApodListUsecase.call(count));
 
     setIsLoading(false);
   }
