@@ -34,6 +34,21 @@ mixin _$HomeController on _HomeControllerBase, Store {
     });
   }
 
+  final _$hasErrorAtom = Atom(name: '_HomeControllerBase.hasError');
+
+  @override
+  bool get hasError {
+    _$hasErrorAtom.reportRead();
+    return super.hasError;
+  }
+
+  @override
+  set hasError(bool value) {
+    _$hasErrorAtom.reportWrite(value, super.hasError, () {
+      super.hasError = value;
+    });
+  }
+
   final _$apodListAtom = Atom(name: '_HomeControllerBase.apodList');
 
   @override
@@ -64,6 +79,17 @@ mixin _$HomeController on _HomeControllerBase, Store {
   }
 
   @override
+  void setHasError(bool v) {
+    final _$actionInfo = _$_HomeControllerBaseActionController.startAction(
+        name: '_HomeControllerBase.setHasError');
+    try {
+      return super.setHasError(v);
+    } finally {
+      _$_HomeControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void setApodList(List<ApodEntity> v) {
     final _$actionInfo = _$_HomeControllerBaseActionController.startAction(
         name: '_HomeControllerBase.setApodList');
@@ -78,6 +104,7 @@ mixin _$HomeController on _HomeControllerBase, Store {
   String toString() {
     return '''
 isLoading: ${isLoading},
+hasError: ${hasError},
 apodList: ${apodList}
     ''';
   }

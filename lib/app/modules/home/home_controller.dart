@@ -17,6 +17,9 @@ abstract class _HomeControllerBase with Store {
   bool isLoading = true;
 
   @observable
+  bool hasError = false;
+
+  @observable
   ObservableList<ApodEntity> apodList;
 
   _HomeControllerBase(this._fetchApodListUsecase);
@@ -25,10 +28,18 @@ abstract class _HomeControllerBase with Store {
   void setIsLoading(bool v) => isLoading = v;
 
   @action
+  void setHasError(bool v) => hasError = v;
+
+  @action
   void setApodList(List<ApodEntity> v) => apodList = v.asObservable();
 
   Future<void> fetchApodList() async {
-    setApodList(await _fetchApodListUsecase.call(count));
+    setHasError(false);
+    try {
+      setApodList(await _fetchApodListUsecase.call(count));
+    } catch (e) {
+      setHasError(true);
+    }
 
     setIsLoading(false);
   }
