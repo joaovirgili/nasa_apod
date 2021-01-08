@@ -10,12 +10,13 @@ import 'package:cloudwalk_nasa/domain/usecases/fetch_apod_list_usecase.dart';
 class FetchApodListUsecaseMock extends Mock implements IFetchApodListUsecase {}
 
 void main() {
+  final fetchApodListUsecaseMock = FetchApodListUsecaseMock();
+  final count = 10;
+
   initModule(
     HomeModule(),
     changeBinds: [
-      BindInject<IFetchApodListUsecase>(
-        (i) => FetchApodListUsecaseMock(),
-      )
+      BindInject<IFetchApodListUsecase>((i) => fetchApodListUsecaseMock)
     ],
   );
   HomeController sut;
@@ -31,6 +32,12 @@ void main() {
 
     test('Should start with loading true', () {
       expect(sut.isLoading, isTrue);
+    });
+
+    test('fetchApodList should call fetchApodListUsecase', () async {
+      await sut.fetchApodList();
+
+      verify(fetchApodListUsecaseMock(count)).called(1);
     });
   });
 }

@@ -9,10 +9,15 @@ part 'home_controller.g.dart';
 class HomeController = _HomeControllerBase with _$HomeController;
 
 abstract class _HomeControllerBase with Store {
-  final IFetchApodListUsecase fetchApodListUsecase;
+  final IFetchApodListUsecase _fetchApodListUsecase;
+  final count = 10;
 
   @observable
   bool isLoading = true;
 
-  _HomeControllerBase(this.fetchApodListUsecase);
+  _HomeControllerBase(this._fetchApodListUsecase);
+
+  Future<void> fetchApodList() async {
+    await _fetchApodListUsecase(count);
+  }
 }
