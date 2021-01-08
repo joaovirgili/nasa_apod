@@ -9,7 +9,7 @@ class DioAdapter implements IHttpClient {
   DioAdapter(this.dio);
 
   @override
-  Future<Map> get({
+  Future<dynamic> get({
     @required String url,
     Map<String, dynamic> queryParameters,
   }) async {
@@ -25,10 +25,10 @@ class DioAdapter implements IHttpClient {
     return _handleResponse(dioResponse);
   }
 
-  Map _handleResponse(Response response) {
+  dynamic _handleResponse(Response response) {
     switch (response.statusCode) {
       case 200:
-        return response.data as Map;
+        return response.data;
         break;
       case 400:
         throw HttpError.badRequest;
