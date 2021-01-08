@@ -1,3 +1,4 @@
+import '../../core/constants/urls.dart';
 import '../../core/key.dart';
 import '../../domain/entities/apod_entity.dart';
 import '../../domain/helpers/domain_error.dart';
@@ -10,13 +11,11 @@ class ApodRepository implements IApodRepository {
 
   ApodRepository(this.httpClient);
 
-  final url = "https://api.nasa.gov/planetary/apod";
-
   @override
   Future<ApodEntity> fetchApod() async {
     try {
       final res = await httpClient.get(
-        url: url,
+        url: AppUrls.apod,
         queryParameters: {
           "thumbs": true,
           "api_key": nasaApiKey,
@@ -33,7 +32,7 @@ class ApodRepository implements IApodRepository {
   Future<List<ApodEntity>> fetchApodList(int count) async {
     try {
       final res = await httpClient.get(
-        url: url,
+        url: AppUrls.apod,
         queryParameters: {
           "thumbs": true,
           "api_key": nasaApiKey,

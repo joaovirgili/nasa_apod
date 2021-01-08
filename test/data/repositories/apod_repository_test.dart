@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 
+import 'package:cloudwalk_nasa/core/constants/urls.dart';
 import 'package:cloudwalk_nasa/core/key.dart';
 import 'package:cloudwalk_nasa/data/http/http_client.dart';
 import 'package:cloudwalk_nasa/data/repository/apod_repository.dart';
@@ -12,7 +13,6 @@ class HttpClientMock extends Mock implements IHttpClient {}
 void main() {
   ApodRepository sut;
   IHttpClient httpClient;
-  final url = "https://api.nasa.gov/planetary/apod";
 
   setUp(() {
     httpClient = HttpClientMock();
@@ -48,7 +48,7 @@ void main() {
       await sut.fetchApodList(count);
 
       verify(httpClient.get(
-        url: url,
+        url: AppUrls.apod,
         queryParameters: {
           "thumbs": true,
           "api_key": nasaApiKey,
@@ -115,7 +115,7 @@ void main() {
       await sut.fetchApod();
 
       verify(httpClient.get(
-        url: url,
+        url: AppUrls.apod,
         queryParameters: {
           "thumbs": true,
           "api_key": nasaApiKey,
