@@ -30,8 +30,8 @@ class ApodRepository implements IApodRepository {
   }
 
   @override
-  Future<List<ApodEntity>> fetchApodList(int count) {
-    httpClient.get(
+  Future<List<ApodEntity>> fetchApodList(int count) async {
+    final res = await httpClient.get(
       url: url,
       queryParameters: {
         "thumbs": true,
@@ -39,6 +39,6 @@ class ApodRepository implements IApodRepository {
         "count": count,
       },
     );
-    return null;
+    return (res as List).map((e) => ApodModel.fromJson(e).toEntity()).toList();
   }
 }

@@ -43,6 +43,8 @@ void main() {
     final count = 10;
 
     test('Should call DioAdapter with correct values', () async {
+      mockSuccess();
+
       await sut.fetchApodList(count);
 
       verify(httpClient.get(
@@ -53,6 +55,16 @@ void main() {
           "count": count,
         },
       ));
+    });
+
+    test('Should return ApodEntity if HttpClient returns 200', () async {
+      mockSuccess();
+
+      final res = await sut.fetchApodList(count);
+
+      expect(res, isA<List<ApodEntity>>());
+      expect(res, isNotNull);
+      expect(res, isNotEmpty);
     });
   });
 
