@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:meta/meta.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -10,7 +11,17 @@ class SharedPrefAdapter implements ILocalStorage {
   SharedPrefAdapter(this.sharedPreferences);
 
   @override
-  Future put({String key, Map<String, dynamic> data}) async {
+  Future put({
+    @required String key,
+    @required Map<String, dynamic> data,
+  }) async {
     await sharedPreferences.setString(key, jsonEncode(data));
+  }
+
+  @override
+  Future<Map<String, dynamic>> get({@required String key}) {
+    sharedPreferences.getString(key);
+
+    return null;
   }
 }

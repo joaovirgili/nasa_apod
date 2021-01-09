@@ -17,12 +17,20 @@ void main() {
     sut = SharedPrefAdapter(sharedPreferences);
   });
 
-  test('Should call sharedPreferences with correct values', () {
+  test('Put Should call sharedPreferences with correct values', () async {
     final key = "key";
     final data = {"teste": "teste"};
 
-    sut.put(key: key, data: data);
+    await sut.put(key: key, data: data);
 
     verify(sharedPreferences.setString(key, jsonEncode(data)));
+  });
+
+  test('Get Should call sharedPreferences with correct values', () async {
+    final key = "key";
+
+    await sut.get(key: key);
+
+    verify(sharedPreferences.getString(key));
   });
 }
