@@ -79,7 +79,7 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
     });
 
     _scrollController.addListener(() {
-      if (_listReachedPercentage(0.85)) {
+      if (_listReachedPercentage(0.95)) {
         if (!controller.hasError && !controller.isLoadingNextPage) {
           controller.fetchApodNextPage();
         }
@@ -89,7 +89,10 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
     errorReaction = reaction<bool>(
       (_) => controller.hasError,
       (hasError) {
-        if (hasError) _openErrorSnackbar();
+        if (hasError) {
+          _openErrorSnackbar();
+          controller.setHasError(false);
+        }
       },
     );
   }
