@@ -1,16 +1,70 @@
-# cloudwalk_nasa
+<h1 align="center">
+  APOD - Nasa
+</h1>
 
-A new Flutter project. Created by Slidy
+# :rocket: How to build?
 
-## Getting Started
+1. Be sure to have flutter installed: https://flutter.dev/
 
-This project is a starting point for a Flutter application.
+2. Clone the project and go to root folder.
 
-A few resources to get you started if this is your first Flutter project:
+3. Exec `flutter pub get` to download the dependencies.
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+4. Be sure to have an emulator or an plugged cellphone with developer tools activated.
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+5. Done. To run in debug, exec `flutter run`. In release `flutter run --release`. To build apk, exec `flutter build apk`.
+
+# :computer: Implementation
+
+## Techs
+
+1. Flutter Modular [https://github.com/Flutterando/modular] for Dependency Injection.
+2. Mobx [https://pub.dev/packages/mobx] for state management and reactive.
+3. Slidy [https://github.com/Flutterando/slidy] as tool. 
+4. Dio [https://pub.dev/packages/dio] to HTTP requests.
+5. Shared Preferences [https://pub.dev/packages/shared_preferences] to local storage.
+
+I really like how Flutter Modular is structured (inspired in Angular) combined with the simplicity to deal with reactivity of Mobx. Slidy does'n count as implementation, but this tool helps a lot generating Pages, Modules, and etc.. Flutterando's community has been done a great job maintaining those techs.
+
+## Architecture
+I've been studying even more about how to build an software architecture maintainable and scalable. Clean Architecture 
+Tenho estudado cada vez mais organização e estruturação de projeto de forma que seja mantível e escalável. Clean Architecture promotes the independent implementation of each layer of the application, facilitating project maintenance.  
+
+References:
+1. Flutter, TDD, Clean Architecture, SOLID e Design Patterns
+ [https://www.udemy.com/course/flutter-com-mango/]
+2. Flutter TDD Clean Architecture Course [https://www.youtube.com/watch?v=KjE2IDphA_U&list=PLB6lc7nQ1n4iYGE_khpXRdJkJEp9WOech]
+3. Clean Dart [https://github.com/Flutterando/Clean-Dart]
+
+## Estrutura de arquivos:
+```
+├── lib
+│   ├── app
+│   │   ├── shared
+│   │   └── modules
+│   ├── core
+│   ├── data
+│   │   ├── repositories
+│   │   ├── models
+│   │   └── http
+│   ├── domain
+│   │   ├── entities
+│   │   ├── helpers
+│   │   ├── repositories
+│   │   └── usecases
+│   ├── infra
+│   │   ├── shared_preferences
+│   │   └── dio
+│   └── shared
+
+```
+
+## Abstraction:
+<img src="https://github.com/Flutterando/Clean-Dart/raw/master/imgs/img1.png" />
+
+Obs.: I prefere to call `data` what is called `infra` in this image and called `infra` what is called `external`.
+
+
+## :mailbox_with_mail: License
+
+This project was created for study, fell free to test and use it.
