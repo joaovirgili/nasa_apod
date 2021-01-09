@@ -11,23 +11,21 @@ void main() {
   final validData = {"teste": "teste"};
   SharedPreferences.setMockInitialValues({validKey: jsonEncode(validData)});
   ILocalStorage sut;
-  SharedPreferences sharedPreferences;
 
   setUp(() async {
-    sharedPreferences = await SharedPreferences.getInstance();
-    sut = SharedPrefAdapter(sharedPreferences);
+    sut = SharedPrefAdapter();
   });
 
   test('Get should return null if key has no data', () async {
     final key = "key";
 
-    final res = sut.get(key: key);
+    final res = await sut.get(key: key);
 
     expect(res, isNull);
   });
 
   test('Get should return Map if key has data', () async {
-    final data = sut.get(key: validKey);
+    final data = await sut.get(key: validKey);
 
     expect(data, equals(validData));
   });

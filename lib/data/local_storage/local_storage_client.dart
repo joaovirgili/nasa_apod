@@ -5,5 +5,5 @@ abstract class ILocalStorage {
     @required String key,
     @required Map<String, dynamic> data,
   });
-  Map<String, dynamic> get({@required String key});
+  Future<Map<String, dynamic>> get({@required String key});
 }
