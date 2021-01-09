@@ -11,10 +11,13 @@ class HomeController = _HomeControllerBase with _$HomeController;
 
 abstract class _HomeControllerBase with Store {
   final IFetchApodListUsecase _fetchApodListUsecase;
-  final count = 25;
+  final count = 5;
 
   @observable
   bool isLoading = true;
+
+  @observable
+  bool isLoadingNextPage = false;
 
   @observable
   bool hasError = false;
@@ -28,10 +31,16 @@ abstract class _HomeControllerBase with Store {
   void setIsLoading(bool v) => isLoading = v;
 
   @action
+  void setIsLoadingNextPage(bool v) => isLoadingNextPage = v;
+
+  @action
   void setHasError(bool v) => hasError = v;
 
   @action
   void setApodList(List<ApodEntity> v) => apodList = v.asObservable();
+
+  @action
+  void addNextApodPage(List<ApodEntity> v) => apodList.addAll(v);
 
   Future<void> fetchApodList() async {
     setHasError(false);
@@ -43,5 +52,16 @@ abstract class _HomeControllerBase with Store {
     }
 
     setIsLoading(false);
+  }
+
+  Future fetchApodNextPage() async {
+    print("Loading next page");
+    setIsLoadingNextPage(true);
+    try {
+      addNextApodPage(await _fetchApodListUsecase.call(count));
+    } catch (_) {}
+
+    setIsLoadingNextPage(false);
+    print("Page loaded");
   }
 }

@@ -17,10 +17,24 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends ModularState<HomePage, HomeController> {
+  final _scrollController = ScrollController();
+
+  bool _listReachedPercentage(double percent) =>
+      _scrollController.offset >=
+      _scrollController.position.maxScrollExtent * percent;
+
   @override
   void initState() {
     super.initState();
     controller.fetchApodList();
+
+    _scrollController.addListener(() {
+      if (_listReachedPercentage(0.85)) {
+        if (!controller.hasError && !controller.isLoadingNextPage) {
+          controller.fetchApodNextPage();
+        }
+      }
+    });
   }
 
   @override
@@ -61,6 +75,7 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
 
   Widget _buildApodListWidget() {
     return ListView(
+      controller: _scrollController,
       children: controller.apodList
           .map((apod) => ApodCardWidget(
                 apod: apod,

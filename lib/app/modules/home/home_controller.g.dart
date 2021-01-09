@@ -34,6 +34,22 @@ mixin _$HomeController on _HomeControllerBase, Store {
     });
   }
 
+  final _$isLoadingNextPageAtom =
+      Atom(name: '_HomeControllerBase.isLoadingNextPage');
+
+  @override
+  bool get isLoadingNextPage {
+    _$isLoadingNextPageAtom.reportRead();
+    return super.isLoadingNextPage;
+  }
+
+  @override
+  set isLoadingNextPage(bool value) {
+    _$isLoadingNextPageAtom.reportWrite(value, super.isLoadingNextPage, () {
+      super.isLoadingNextPage = value;
+    });
+  }
+
   final _$hasErrorAtom = Atom(name: '_HomeControllerBase.hasError');
 
   @override
@@ -79,6 +95,17 @@ mixin _$HomeController on _HomeControllerBase, Store {
   }
 
   @override
+  void setIsLoadingNextPage(bool v) {
+    final _$actionInfo = _$_HomeControllerBaseActionController.startAction(
+        name: '_HomeControllerBase.setIsLoadingNextPage');
+    try {
+      return super.setIsLoadingNextPage(v);
+    } finally {
+      _$_HomeControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void setHasError(bool v) {
     final _$actionInfo = _$_HomeControllerBaseActionController.startAction(
         name: '_HomeControllerBase.setHasError');
@@ -101,9 +128,21 @@ mixin _$HomeController on _HomeControllerBase, Store {
   }
 
   @override
+  void addNextApodPage(List<ApodEntity> v) {
+    final _$actionInfo = _$_HomeControllerBaseActionController.startAction(
+        name: '_HomeControllerBase.addNextApodPage');
+    try {
+      return super.addNextApodPage(v);
+    } finally {
+      _$_HomeControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 isLoading: ${isLoading},
+isLoadingNextPage: ${isLoadingNextPage},
 hasError: ${hasError},
 apodList: ${apodList}
     ''';
