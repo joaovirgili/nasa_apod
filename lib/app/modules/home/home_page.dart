@@ -75,6 +75,7 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       controller.fetchApodList();
+      controller.fetchLocalApodList();
     });
 
     _scrollController.addListener(() {
@@ -165,7 +166,7 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
         hasError: controller.hasError,
         child: ListView(
           controller: _scrollController,
-          children: controller.hasError
+          children: controller.apodList == null
               ? <Widget>[]
               : controller.apodList
                   .where((apod) => filterApodByTitle(apod, controller.search))
