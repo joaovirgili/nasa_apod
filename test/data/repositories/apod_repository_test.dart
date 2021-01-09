@@ -3,6 +3,7 @@ import 'package:mockito/mockito.dart';
 
 import 'package:cloudwalk_nasa/core/constants/urls.dart';
 import 'package:cloudwalk_nasa/core/key.dart';
+import 'package:cloudwalk_nasa/data/local_storage/local_storage_client.dart';
 import 'package:cloudwalk_nasa/data/http/http_client.dart';
 import 'package:cloudwalk_nasa/data/repository/apod_repository.dart';
 import 'package:cloudwalk_nasa/domain/entities/apod_entity.dart';
@@ -10,13 +11,17 @@ import 'package:cloudwalk_nasa/domain/helpers/domain_error.dart';
 
 class HttpClientMock extends Mock implements IHttpClient {}
 
+class LocalStorageMock extends Mock implements ILocalStorage {}
+
 void main() {
   ApodRepository sut;
   IHttpClient httpClient;
+  ILocalStorage localStorage;
 
   setUp(() {
     httpClient = HttpClientMock();
-    sut = ApodRepository(httpClient);
+    localStorage = LocalStorageMock();
+    sut = ApodRepository(httpClient, localStorage);
   });
 
   group('Fetch a list of APOD', () {
@@ -55,6 +60,8 @@ void main() {
           "count": count,
         },
       ));
+
+      verify(localStorage.put(key: "apod_list", data: responseMock));
     });
 
     test('Should return ApodEntity if HttpClient returns 200', () async {

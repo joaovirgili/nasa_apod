@@ -4,12 +4,14 @@ import '../../domain/entities/apod_entity.dart';
 import '../../domain/helpers/domain_error.dart';
 import '../../domain/repositories/apod_repository.dart';
 import '../http/http_client.dart';
+import '../local_storage/local_storage_client.dart';
 import '../models/apod_model.dart';
 
 class ApodRepository implements IApodRepository {
   final IHttpClient httpClient;
+  final ILocalStorage localStorage;
 
-  ApodRepository(this.httpClient);
+  ApodRepository(this.httpClient, this.localStorage);
 
   @override
   Future<ApodEntity> fetchApod() async {
@@ -21,7 +23,6 @@ class ApodRepository implements IApodRepository {
           "api_key": nasaApiKey,
         },
       );
-
       return ApodModel.fromJson(res).toEntity();
     } catch (e) {
       throw DomainError.unexpected;
@@ -43,6 +44,7 @@ class ApodRepository implements IApodRepository {
           "count": count,
         },
       );
+      await localStorage.put(key: "apod_list", data: res);
       return (res as List)
           .map((e) => ApodModel.fromJson(e).toEntity())
           .where((e) => isValidApod(e))

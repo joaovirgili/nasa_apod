@@ -2,11 +2,13 @@ import 'package:dio/dio.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
 import '../../../data/http/http_client.dart';
+import '../../../data/local_storage/local_storage_client.dart';
 import '../../../data/repository/apod_repository.dart';
 import '../../../domain/entities/apod_entity.dart';
 import '../../../domain/repositories/apod_repository.dart';
 import '../../../domain/usecases/fetch_apod_list_usecase.dart';
 import '../../../infra/dio/dio.dart';
+import '../../../infra/shared_pref/shared_prof_adapter.dart';
 import '../../shared/routes.dart';
 import 'home_controller.dart';
 import 'home_page.dart';
@@ -20,8 +22,11 @@ class HomeModule extends ChildModule {
         BindInject<IHttpClient>(
           (i) => DioAdapter(Dio()),
         ),
+        BindInject<ILocalStorage>(
+          (i) => SharedPrefAdapter(),
+        ),
         BindInject<IApodRepository>(
-          (i) => ApodRepository(i.get<IHttpClient>()),
+          (i) => ApodRepository(i.get<IHttpClient>(), i.get<ILocalStorage>()),
         ),
         BindInject<IFetchApodListUsecase>(
           (i) => FetchApodListUsecase(i.get<IApodRepository>()),
