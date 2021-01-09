@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+
+import '../../../../../domain/entities/apod_entity.dart';
 import 'apod_details_controller.dart';
 
 class ApodDetailsPage extends StatefulWidget {
-  final String title;
-  const ApodDetailsPage({Key key, this.title = "ApodDetails"})
-      : super(key: key);
+  final ApodEntity apodEntity;
+  const ApodDetailsPage({Key key, @required this.apodEntity}) : super(key: key);
 
   @override
   _ApodDetailsPageState createState() => _ApodDetailsPageState();
@@ -18,9 +19,7 @@ class _ApodDetailsPageState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
+      appBar: AppBar(),
       body: Column(
         children: <Widget>[],
       ),

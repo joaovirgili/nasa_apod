@@ -3,6 +3,7 @@ import 'package:flutter_modular/flutter_modular.dart';
 
 import '../../../data/http/http_client.dart';
 import '../../../data/repository/apod_repository.dart';
+import '../../../domain/entities/apod_entity.dart';
 import '../../../domain/repositories/apod_repository.dart';
 import '../../../domain/usecases/fetch_apod_list_usecase.dart';
 import '../../../infra/dio/dio.dart';
@@ -33,7 +34,9 @@ class HomeModule extends ChildModule {
         ModularRouter(Modular.initialRoute, child: (_, args) => HomePage()),
         ModularRouter(
           AppRoutes.apodDetails,
-          child: (_, args) => ApodDetailsPage(),
+          child: (_, args) => ApodDetailsPage(
+            apodEntity: args.data as ApodEntity,
+          ),
         ),
       ];
 

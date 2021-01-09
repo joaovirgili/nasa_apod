@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
+import '../../../domain/entities/apod_entity.dart';
 import '../../shared/routes.dart';
 import 'components/apod_card_widget.dart';
 import 'home_controller.dart';
@@ -55,16 +56,15 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
     );
   }
 
-  void _onApodTap() {
-    Modular.to.pushNamed(AppRoutes.apodDetails);
-  }
+  void _onApodTap(ApodEntity apod) =>
+      Modular.to.pushNamed(AppRoutes.apodDetails, arguments: apod);
 
   Widget _buildApodListWidget() {
     return ListView(
       children: controller.apodList
           .map((apod) => ApodCardWidget(
                 apod: apod,
-                onTap: _onApodTap,
+                onTap: () => _onApodTap(apod),
               ))
           .toList(),
     );
