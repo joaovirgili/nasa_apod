@@ -31,7 +31,7 @@ class _ApodDetailsPageState
             imageBuilder: (context, provider) {
               return ClipRRect(
                 borderRadius: BorderRadius.circular(5),
-                child: Image.network(widget.apodEntity.validUrl),
+                child: Image(image: provider),
               );
             },
           ),
