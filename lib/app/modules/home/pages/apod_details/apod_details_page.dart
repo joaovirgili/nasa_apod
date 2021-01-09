@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
@@ -25,15 +26,17 @@ class _ApodDetailsPageState
         padding: const EdgeInsets.symmetric(horizontal: 24),
         children: <Widget>[
           const SizedBox(height: 10),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(5),
-            child: Image.network(widget.apodEntity.validUrl),
+          CachedNetworkImage(
+            imageUrl: widget.apodEntity.validUrl,
+            imageBuilder: (context, provider) {
+              return ClipRRect(
+                borderRadius: BorderRadius.circular(5),
+                child: Image.network(widget.apodEntity.validUrl),
+              );
+            },
           ),
           const SizedBox(height: 10),
-          Text(
-            widget.apodEntity.title,
-            textAlign: TextAlign.center,
-          ),
+          Text(widget.apodEntity.title, textAlign: TextAlign.center),
           const SizedBox(height: 10),
           Text(
             DateFormatter.format(widget.apodEntity.date),
