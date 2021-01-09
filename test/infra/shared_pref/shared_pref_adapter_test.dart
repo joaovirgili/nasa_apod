@@ -33,4 +33,12 @@ void main() {
 
     verify(sharedPreferences.getString(key));
   });
+
+  test('Get should return null if key has no data', () async {
+    final key = "key";
+
+    final res = await sut.get(key: key);
+
+    expect(res, isNull);
+  });
 }
