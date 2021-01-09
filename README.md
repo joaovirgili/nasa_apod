@@ -4,6 +4,8 @@
 
 # :rocket: How to build?
 
+:warning: Attention: This project uses [NASA](https://api.nasa.gov) API. To build properly, you must generate your key and edit the file `lib/core/key.dart` replacing `"API_KEY_HERE"` with your key.
+
 1. Be sure to have flutter installed: https://flutter.dev/
 
 2. Clone the project and go to root the folder.
