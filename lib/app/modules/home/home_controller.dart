@@ -46,7 +46,6 @@ abstract class _HomeControllerBase with Store {
     setHasError(false);
     setIsLoading(true);
     try {
-      // throw Exception();
       setApodList(await _fetchApodListUsecase.call(count));
     } catch (e) {
       setHasError(true);
