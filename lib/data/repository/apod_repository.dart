@@ -41,6 +41,7 @@ class ApodRepository implements IApodRepository {
       );
       return (res as List)
           .map((e) => ApodModel.fromJson(e).toEntity())
+          .where((e) => e.mediaType == "video" || e.mediaType == "image")
           .toList();
     } catch (e) {
       throw DomainError.unexpected;
