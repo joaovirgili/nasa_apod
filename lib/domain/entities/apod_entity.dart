@@ -16,4 +16,7 @@ class ApodEntity {
   final String title;
   final String url;
   final String thumbnailUrl;
+
+  String get validUrl =>
+      mediaType == "video" && thumbnailUrl != "" ? thumbnailUrl : url;
 }

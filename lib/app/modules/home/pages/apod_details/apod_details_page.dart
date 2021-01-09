@@ -27,12 +27,7 @@ class _ApodDetailsPageState
           const SizedBox(height: 10),
           ClipRRect(
             borderRadius: BorderRadius.circular(5),
-            child: Image.network(
-              widget.apodEntity.mediaType == "video" &&
-                      widget.apodEntity.thumbnailUrl != ""
-                  ? widget.apodEntity.thumbnailUrl
-                  : widget.apodEntity.url,
-            ),
+            child: Image.network(widget.apodEntity.validUrl),
           ),
           const SizedBox(height: 10),
           Text(

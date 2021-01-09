@@ -23,11 +23,7 @@ class ApodCardWidget extends StatelessWidget {
           borderRadius: BorderRadius.circular(5),
           child: Stack(
             children: [
-              Image.network(
-                apod.mediaType == "video" && apod.thumbnailUrl != ""
-                    ? apod.thumbnailUrl
-                    : apod.url,
-              ),
+              Image.network(apod.validUrl),
               Positioned(
                 left: 0,
                 bottom: 0,
