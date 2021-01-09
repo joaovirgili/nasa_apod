@@ -3,6 +3,7 @@ import 'package:mobx/mobx.dart';
 
 import '../../../domain/entities/apod_entity.dart';
 import '../../../domain/usecases/fetch_apod_list_usecase.dart';
+import '../../../domain/usecases/fetch_local_apod_list_usecase.dart';
 
 part 'home_controller.g.dart';
 
@@ -11,6 +12,7 @@ class HomeController = _HomeControllerBase with _$HomeController;
 
 abstract class _HomeControllerBase with Store {
   final IFetchApodListUsecase _fetchApodListUsecase;
+  final IFetchLocalApodListUsecase _fetchLocalApodListUsecase;
   final count = 5;
 
   @observable
@@ -31,7 +33,10 @@ abstract class _HomeControllerBase with Store {
   @observable
   ObservableList<ApodEntity> apodList;
 
-  _HomeControllerBase(this._fetchApodListUsecase);
+  _HomeControllerBase(
+    this._fetchApodListUsecase,
+    this._fetchLocalApodListUsecase,
+  );
 
   @action
   void setIsLoading(bool v) => isLoading = v;
@@ -64,6 +69,13 @@ abstract class _HomeControllerBase with Store {
     }
 
     setIsLoading(false);
+  }
+
+  Future fetchLocalApodList() async {
+    try {
+      setApodList(await _fetchLocalApodListUsecase.call());
+      setIsLoading(false);
+    } catch (_) {}
   }
 
   Future fetchApodNextPage() async {

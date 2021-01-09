@@ -7,6 +7,7 @@ import '../../../data/repository/apod_repository.dart';
 import '../../../domain/entities/apod_entity.dart';
 import '../../../domain/repositories/apod_repository.dart';
 import '../../../domain/usecases/fetch_apod_list_usecase.dart';
+import '../../../domain/usecases/fetch_local_apod_list_usecase.dart';
 import '../../../infra/dio/dio.dart';
 import '../../../infra/shared_pref/shared_prof_adapter.dart';
 import '../../shared/routes.dart';
@@ -30,6 +31,9 @@ class HomeModule extends ChildModule {
         ),
         BindInject<IFetchApodListUsecase>(
           (i) => FetchApodListUsecase(i.get<IApodRepository>()),
+        ),
+        BindInject<IFetchLocalApodListUsecase>(
+          (i) => FetchLocalApodListUsecase(i.get<IApodRepository>()),
         ),
         $HomeController,
       ];

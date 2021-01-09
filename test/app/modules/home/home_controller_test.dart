@@ -6,18 +6,26 @@ import 'package:mockito/mockito.dart';
 import 'package:cloudwalk_nasa/app/modules/home/home_controller.dart';
 import 'package:cloudwalk_nasa/app/modules/home/home_module.dart';
 import 'package:cloudwalk_nasa/domain/usecases/fetch_apod_list_usecase.dart';
+import 'package:cloudwalk_nasa/domain/usecases/fetch_local_apod_list_usecase.dart';
 import 'package:cloudwalk_nasa/domain/entities/apod_entity.dart';
 import 'package:cloudwalk_nasa/domain/helpers/domain_error.dart';
 
 class FetchApodListUsecaseMock extends Mock implements IFetchApodListUsecase {}
 
+class FetchLocalApodListUsecaseMock extends Mock
+    implements IFetchLocalApodListUsecase {}
+
 void main() {
   final fetchApodListUsecaseMock = FetchApodListUsecaseMock();
+  final fetchLocalApodListUsecaseMock = FetchLocalApodListUsecaseMock();
 
   initModule(
     HomeModule(),
     changeBinds: [
-      BindInject<IFetchApodListUsecase>((i) => fetchApodListUsecaseMock)
+      BindInject<IFetchApodListUsecase>((i) => fetchApodListUsecaseMock),
+      BindInject<IFetchLocalApodListUsecase>(
+        (i) => fetchLocalApodListUsecaseMock,
+      ),
     ],
   );
   HomeController sut;
@@ -45,6 +53,17 @@ void main() {
       expect(sut.isLoading, isFalse);
       expect(sut.apodList, isNotEmpty);
       verify(fetchApodListUsecaseMock(sut.count)).called(1);
+    });
+
+    test('fetchLocalApodList should call fetchLocalApodListUsecase', () async {
+      when(fetchLocalApodListUsecaseMock()).thenAnswer(
+        (realInvocation) async => [ApodEntity()],
+      );
+
+      await sut.fetchLocalApodList();
+
+      expect(sut.apodList, isNotEmpty);
+      verify(fetchLocalApodListUsecaseMock()).called(1);
     });
 
     test('hasError should me true if fetchApodListUsecase throws', () async {
