@@ -46,6 +46,7 @@ abstract class _HomeControllerBase with Store {
     setHasError(false);
     setIsLoading(true);
     try {
+      // throw Exception();
       setApodList(await _fetchApodListUsecase.call(count));
     } catch (e) {
       setHasError(true);
@@ -55,13 +56,15 @@ abstract class _HomeControllerBase with Store {
   }
 
   Future fetchApodNextPage() async {
-    print("Loading next page");
     setIsLoadingNextPage(true);
+    setHasError(false);
     try {
       addNextApodPage(await _fetchApodListUsecase.call(count));
-    } catch (_) {}
+    } catch (_) {
+      setHasError(true);
+    }
 
+    await Future.delayed(const Duration(milliseconds: 500));
     setIsLoadingNextPage(false);
-    print("Page loaded");
   }
 }
