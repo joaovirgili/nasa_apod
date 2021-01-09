@@ -15,7 +15,7 @@ class SharedPrefAdapter implements ILocalStorage {
   }
 
   @override
-  Future<Map<String, dynamic>> get({@required String key}) async {
+  Future<dynamic> get({@required String key}) async {
     final res = (await SharedPreferences.getInstance()).getString(key);
 
     return res == null ? null : jsonDecode(res);
