@@ -23,6 +23,12 @@ abstract class _HomeControllerBase with Store {
   bool hasError = false;
 
   @observable
+  DateTime selectedDate;
+
+  @observable
+  String search;
+
+  @observable
   ObservableList<ApodEntity> apodList;
 
   _HomeControllerBase(this._fetchApodListUsecase);
@@ -41,6 +47,12 @@ abstract class _HomeControllerBase with Store {
 
   @action
   void addNextApodPage(List<ApodEntity> v) => apodList.addAll(v);
+
+  @action
+  void setSelectedDate(DateTime v) => selectedDate = v;
+
+  @action
+  void setSearch(String v) => search = v;
 
   Future<void> fetchApodList() async {
     setHasError(false);

@@ -65,6 +65,36 @@ mixin _$HomeController on _HomeControllerBase, Store {
     });
   }
 
+  final _$selectedDateAtom = Atom(name: '_HomeControllerBase.selectedDate');
+
+  @override
+  DateTime get selectedDate {
+    _$selectedDateAtom.reportRead();
+    return super.selectedDate;
+  }
+
+  @override
+  set selectedDate(DateTime value) {
+    _$selectedDateAtom.reportWrite(value, super.selectedDate, () {
+      super.selectedDate = value;
+    });
+  }
+
+  final _$searchAtom = Atom(name: '_HomeControllerBase.search');
+
+  @override
+  String get search {
+    _$searchAtom.reportRead();
+    return super.search;
+  }
+
+  @override
+  set search(String value) {
+    _$searchAtom.reportWrite(value, super.search, () {
+      super.search = value;
+    });
+  }
+
   final _$apodListAtom = Atom(name: '_HomeControllerBase.apodList');
 
   @override
@@ -139,11 +169,35 @@ mixin _$HomeController on _HomeControllerBase, Store {
   }
 
   @override
+  void setSelectedDate(DateTime v) {
+    final _$actionInfo = _$_HomeControllerBaseActionController.startAction(
+        name: '_HomeControllerBase.setSelectedDate');
+    try {
+      return super.setSelectedDate(v);
+    } finally {
+      _$_HomeControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setSearch(String v) {
+    final _$actionInfo = _$_HomeControllerBaseActionController.startAction(
+        name: '_HomeControllerBase.setSearch');
+    try {
+      return super.setSearch(v);
+    } finally {
+      _$_HomeControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 isLoading: ${isLoading},
 isLoadingNextPage: ${isLoadingNextPage},
 hasError: ${hasError},
+selectedDate: ${selectedDate},
+search: ${search},
 apodList: ${apodList}
     ''';
   }

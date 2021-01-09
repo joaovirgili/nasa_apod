@@ -6,6 +6,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../../domain/entities/apod_entity.dart';
 import '../../shared/components/app_smart_refresher.dart';
+import '../../shared/formatters/date_formatter.dart';
 import '../../shared/routes.dart';
 import 'components/apod_card_widget.dart';
 import 'home_controller.dart';
@@ -71,6 +72,11 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
       appBar: AppBar(title: Text(widget.title)),
       body: Column(
         children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.all(12),
+            child: _buildTitleFilter(),
+          ),
+          _buildDateFilter(),
           Expanded(
             child: Observer(
               builder: (_) {
@@ -88,6 +94,45 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
     );
   }
 
+  TextField _buildTitleFilter() => TextField(
+        onChanged: controller.setSearch,
+        decoration: InputDecoration(
+          hintText: "search by title",
+        ),
+      );
+
+  Row _buildDateFilter() {
+    return Row(
+      children: [
+        IconButton(
+          icon: Icon(Icons.calendar_today),
+          onPressed: _openDatePicker,
+        ),
+        Observer(builder: (_) {
+          return Text(controller.selectedDate == null
+              ? "Select date to filter"
+              : DateFormatter.format(controller.selectedDate));
+        }),
+        Spacer(),
+        RaisedButton(child: Text("Clear date"), onPressed: _clearDate),
+      ],
+    );
+  }
+
+  void _clearDate() => controller.setSelectedDate(null);
+
+  void _openDatePicker() async {
+    final date = await showDatePicker(
+      context: context,
+      initialDate: controller.selectedDate ?? DateTime.now(),
+      firstDate: DateTime(2002),
+      lastDate: DateTime.now(),
+    );
+    if (date != null) {
+      controller.setSelectedDate(date);
+    }
+  }
+
   void _onApodTap(ApodEntity apod) =>
       Modular.to.pushNamed(AppRoutes.apodDetails, arguments: apod);
 
@@ -103,6 +148,9 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
           children: controller.hasError
               ? <Widget>[]
               : controller.apodList
+                  .where((apod) => filterApodByTitle(apod, controller.search))
+                  .where(
+                      (apod) => filterApodByDate(apod, controller.selectedDate))
                   .map((apod) => ApodCardWidget(
                         apod: apod,
                         onTap: () => _onApodTap(apod),
@@ -113,9 +161,19 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
     });
   }
 
-  Widget _buildLoading() {
-    return const Center(
-      child: CircularProgressIndicator(),
-    );
+  Widget _buildLoading() => const Center(child: CircularProgressIndicator());
+
+  bool filterApodByTitle(ApodEntity apod, String search) {
+    if (search == null) {
+      return true;
+    }
+    return apod.title.toUpperCase().contains(search.toUpperCase());
+  }
+
+  bool filterApodByDate(ApodEntity apod, DateTime date) {
+    if (date == null) {
+      return true;
+    }
+    return apod.date == date;
   }
 }
