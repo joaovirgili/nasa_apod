@@ -30,6 +30,10 @@ class ApodRepository implements IApodRepository {
 
   @override
   Future<List<ApodEntity>> fetchApodList(int count) async {
+    bool isValidApod(ApodEntity e) =>
+        (e.mediaType == "video" && e.thumbnailUrl != "") ||
+        e.mediaType == "image";
+
     try {
       final res = await httpClient.get(
         url: AppUrls.apod,
@@ -41,7 +45,7 @@ class ApodRepository implements IApodRepository {
       );
       return (res as List)
           .map((e) => ApodModel.fromJson(e).toEntity())
-          .where((e) => e.mediaType == "video" || e.mediaType == "image")
+          .where((e) => isValidApod(e))
           .toList();
     } catch (e) {
       throw DomainError.unexpected;
