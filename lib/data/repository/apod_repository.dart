@@ -31,10 +31,6 @@ class ApodRepository implements IApodRepository {
 
   @override
   Future<List<ApodEntity>> fetchApodList(int count) async {
-    bool isValidApod(ApodEntity e) =>
-        (e.mediaType == "video" && e.thumbnailUrl != "") ||
-        e.mediaType == "image";
-
     try {
       final res = await httpClient.get(
         url: AppUrls.apod,
@@ -47,10 +43,24 @@ class ApodRepository implements IApodRepository {
       await localStorage.put(key: "apod_list", data: res);
       return (res as List)
           .map((e) => ApodModel.fromJson(e).toEntity())
-          .where((e) => isValidApod(e))
+          .where((e) => _isValidApod(e))
           .toList();
     } catch (e) {
       throw DomainError.unexpected;
     }
   }
+
+  @override
+  Future<List<ApodEntity>> fetchLocalApodList() async {
+    final res = await localStorage.get(key: "apod_list");
+
+    return (res as List)
+        .map((e) => ApodModel.fromJson(e).toEntity())
+        .where((e) => _isValidApod(e))
+        .toList();
+  }
+
+  bool _isValidApod(ApodEntity e) =>
+      (e.mediaType == "video" && e.thumbnailUrl != "") ||
+      e.mediaType == "image";
 }
