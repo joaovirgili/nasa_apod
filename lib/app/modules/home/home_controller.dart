@@ -11,7 +11,7 @@ class HomeController = _HomeControllerBase with _$HomeController;
 
 abstract class _HomeControllerBase with Store {
   final IFetchApodListUsecase _fetchApodListUsecase;
-  final count = 10;
+  final count = 25;
 
   @observable
   bool isLoading = true;
@@ -35,6 +35,7 @@ abstract class _HomeControllerBase with Store {
 
   Future<void> fetchApodList() async {
     setHasError(false);
+    setIsLoading(true);
     try {
       setApodList(await _fetchApodListUsecase.call(count));
     } catch (e) {
