@@ -21,6 +21,8 @@ environment:
   sdk: ">=2.7.0 <3.0.0"
 
 dependencies:
+  cached_network_image: ^2.5.0
+  pull_to_refresh: ^1.6.3
   intl: ^0.16.1
   flutter_screenutil: ^4.0.2+3
   dio: ^3.0.10
