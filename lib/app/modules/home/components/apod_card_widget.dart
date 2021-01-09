@@ -27,7 +27,11 @@ class ApodCardWidget extends StatelessWidget {
               borderRadius: BorderRadius.circular(5),
               child: Stack(
                 children: [
-                  Image(image: provider),
+                  Image(
+                    width: double.maxFinite,
+                    image: provider,
+                    fit: BoxFit.cover,
+                  ),
                   Positioned(
                     left: 0,
                     bottom: 0,
