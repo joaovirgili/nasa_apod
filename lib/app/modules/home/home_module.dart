@@ -6,6 +6,7 @@ import '../../../data/repository/apod_repository.dart';
 import '../../../domain/repositories/apod_repository.dart';
 import '../../../domain/usecases/fetch_apod_list_usecase.dart';
 import '../../../infra/dio/dio.dart';
+import '../../shared/routes.dart';
 import 'home_controller.dart';
 import 'home_page.dart';
 import 'pages/apod_details/apod_details_controller.dart';
@@ -31,7 +32,7 @@ class HomeModule extends ChildModule {
   List<ModularRouter> get routers => [
         ModularRouter(Modular.initialRoute, child: (_, args) => HomePage()),
         ModularRouter(
-          Modular.initialRoute,
+          AppRoutes.apodDetails,
           child: (_, args) => ApodDetailsPage(),
         ),
       ];
