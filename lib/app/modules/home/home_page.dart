@@ -27,9 +27,48 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
   ReactionDisposer errorReaction;
   ReactionDisposer loadingReaction;
 
-  bool _listReachedPercentage(double percent) =>
-      _scrollController.offset >=
-      _scrollController.position.maxScrollExtent * percent;
+  bool _listReachedPercentage(double percent) {
+    return _scrollController.offset >=
+        _scrollController.position.maxScrollExtent * percent;
+  }
+
+  void _clearDate() => controller.setSelectedDate(null);
+
+  void _openDatePicker() async {
+    final date = await showDatePicker(
+      context: context,
+      initialDate: controller.selectedDate ?? DateTime.now(),
+      firstDate: DateTime(2002),
+      lastDate: DateTime.now(),
+    );
+    if (date != null) {
+      controller.setSelectedDate(date);
+    }
+  }
+
+  void _onApodTap(ApodEntity apod) {
+    Modular.to.pushNamed(AppRoutes.apodDetails, arguments: apod);
+  }
+
+  bool filterApodByTitle(ApodEntity apod, String search) {
+    if (search == null) {
+      return true;
+    }
+    return apod.title.toUpperCase().contains(search.toUpperCase());
+  }
+
+  bool filterApodByDate(ApodEntity apod, DateTime date) {
+    if (date == null) {
+      return true;
+    }
+    return apod.date == date;
+  }
+
+  void _openErrorSnackbar() {
+    scaffoldKey.currentState.showSnackBar(
+      SnackBar(content: Text("Failed to fetch data!")),
+    );
+  }
 
   @override
   void initState() {
@@ -49,9 +88,7 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
     errorReaction = reaction<bool>(
       (_) => controller.hasError,
       (hasError) {
-        if (hasError)
-          scaffoldKey.currentState
-              .showSnackBar(SnackBar(content: Text("Failed to fetch data!")));
+        if (hasError) _openErrorSnackbar();
       },
     );
   }
@@ -119,23 +156,6 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
     );
   }
 
-  void _clearDate() => controller.setSelectedDate(null);
-
-  void _openDatePicker() async {
-    final date = await showDatePicker(
-      context: context,
-      initialDate: controller.selectedDate ?? DateTime.now(),
-      firstDate: DateTime(2002),
-      lastDate: DateTime.now(),
-    );
-    if (date != null) {
-      controller.setSelectedDate(date);
-    }
-  }
-
-  void _onApodTap(ApodEntity apod) =>
-      Modular.to.pushNamed(AppRoutes.apodDetails, arguments: apod);
-
   Widget _buildApodListWidget() {
     return Observer(builder: (_) {
       return AppSmartRefresher(
@@ -162,18 +182,4 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
   }
 
   Widget _buildLoading() => const Center(child: CircularProgressIndicator());
-
-  bool filterApodByTitle(ApodEntity apod, String search) {
-    if (search == null) {
-      return true;
-    }
-    return apod.title.toUpperCase().contains(search.toUpperCase());
-  }
-
-  bool filterApodByDate(ApodEntity apod, DateTime date) {
-    if (date == null) {
-      return true;
-    }
-    return apod.date == date;
-  }
 }
