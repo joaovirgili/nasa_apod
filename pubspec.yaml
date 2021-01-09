@@ -21,6 +21,7 @@ environment:
   sdk: ">=2.7.0 <3.0.0"
 
 dependencies:
+  shared_preferences: ^0.5.12+4
   cached_network_image: ^2.5.0
   pull_to_refresh: ^1.6.3
   intl: ^0.16.1
