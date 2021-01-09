@@ -26,6 +26,12 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.refresh),
+            onPressed: controller.fetchApodList,
+          ),
+        ],
       ),
       body: Column(
         children: <Widget>[
